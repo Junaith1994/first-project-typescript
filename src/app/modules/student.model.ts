@@ -30,6 +30,7 @@ const LocalGuardianSchema = new Schema<LocalGuardian>({
 
 const studentSchema = new Schema<Student>({
   id: { type: String },
+  password: { type: String, required: true },
   name: UserNameSchema,
   gender: { type: String },
   dateOfBirth: { type: String },
@@ -43,6 +44,7 @@ const studentSchema = new Schema<Student>({
   localGuardian: LocalGuardianSchema,
   profileImg: { type: String },
   isActive: ["active", "blocked"],
+  isDeleted: Boolean,
 });
 
 // Student model

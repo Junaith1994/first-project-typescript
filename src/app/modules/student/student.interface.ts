@@ -22,17 +22,25 @@ export type UserName = {
 
 export type Student = {
   id: string;
+  password: string;
   name: UserName;
   gender: string;
   dateOfBirth: string;
   email: string;
   contactNo: string;
   emergencyContactNo: string;
-  bloodGroup?: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
+  bloodGroup?: {
+    type: string;
+    enum: {
+      values: ["A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-"];
+      message: "{VALUE} is not allowed";
+    };
+  };
   presentAddress: string;
   permanentAddress: string;
   guardian: GuardianInfoTypes;
   localGuardian: LocalGuardian;
   profileImg?: string;
   isActive: "active" | "blocked";
+  isDeleted: boolean;
 };
