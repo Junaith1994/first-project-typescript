@@ -16,7 +16,7 @@ export type LocalGuardian = {
 
 export type UserName = {
   firstName: string;
-  middleName: string;
+  middleName?: string;
   lastName: string;
 };
 
@@ -24,18 +24,12 @@ export type Student = {
   id: string;
   password: string;
   name: UserName;
-  gender: string;
+  gender: "Male" | "Female";
   dateOfBirth: string;
   email: string;
   contactNo: string;
   emergencyContactNo: string;
-  bloodGroup?: {
-    type: string;
-    enum: {
-      values: ["A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-"];
-      message: "{VALUE} is not allowed";
-    };
-  };
+  bloodGroup?: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
   presentAddress: string;
   permanentAddress: string;
   guardian: GuardianInfoTypes;

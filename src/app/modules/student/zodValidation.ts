@@ -18,31 +18,31 @@ const GuardianSchema = z.object({
 
 const LocalGuardianSchema = z.object({
   name: z.string().min(1, "Local guardian's name is required"),
-  occupation: z.string().optional(),
+  occupation: z.string(),
   contactNo: z.string().min(1, "Local guardian's contact number is required"),
-  address: z.string().optional(),
+  address: z.string(),
 });
 
 // Define the main Student schema
 const zodStudentSchema = z.object({
-  id: z.string().optional(),
+  id: z.string(),
   password: z.string().min(1, "Password is required"),
   name: UserNameSchema,
-  gender: z.string().optional(),
-  dateOfBirth: z.string().optional(),
+  gender: z.enum(["Male", "Female"]),
+  dateOfBirth: z.string(),
   email: z.string().email("Invalid email format").min(1, "Email is required"),
-  contactNo: z.string().optional(),
-  emergencyContactNo: z.string().optional(),
+  contactNo: z.string(),
+  emergencyContactNo: z.string(),
   bloodGroup: z
     .enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"])
     .optional(),
-  presentAddress: z.string().optional(),
-  permanentAddress: z.string().optional(),
+  presentAddress: z.string(),
+  permanentAddress: z.string(),
   guardian: GuardianSchema,
-  localGuardian: LocalGuardianSchema.optional(),
-  profileImg: z.string().url("Invalid URL format").optional(),
-  isActive: z.enum(["active", "blocked"]).optional(),
-  isDeleted: z.boolean().optional(),
+  localGuardian: LocalGuardianSchema,
+  profileImg: z.string().url("Invalid URL format"),
+  isActive: z.enum(["active", "blocked"]),
+  isDeleted: z.boolean(),
 });
 
 // Exporting the validation schema for use in routes or other parts of the application
