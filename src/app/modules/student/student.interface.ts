@@ -1,3 +1,5 @@
+import { Model } from "mongoose";
+
 export type GuardianInfoTypes = {
   fatherName: string;
   fatherOccupation: string;
@@ -38,3 +40,9 @@ export type Student = {
   isActive: "active" | "blocked";
   isDeleted: boolean;
 };
+
+export interface TStudendMethods {
+  singleStudent(id: string): Promise<Student>;
+}
+
+export type TStudentModel = Model<Student, {}, TStudendMethods>;
