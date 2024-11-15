@@ -68,14 +68,18 @@ const studentSchema = new Schema<Student, TStudentModel, TStudendMethods>({
   isDeleted: Boolean,
 });
 
+// Instance method
+studentSchema.methods.validateEmail = function () {
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  if (!this.email) {
+    return false;
+  } else {
+    return emailRegex.test(this.email);
+  }
+};
+
 // Student model
 export const StudentModel = model<Student, TStudentModel>(
   "Student",
   studentSchema
 );
-
-// Instance method
-studentSchema.method("singleStudent", async function singleStudent(id) {
-  const result = await StudentModel.findOne({ id });
-  return result;
-});

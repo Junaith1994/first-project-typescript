@@ -42,7 +42,7 @@ export type Student = {
 };
 
 export interface TStudendMethods {
-  singleStudent(id: string): Promise<Student>;
+  validateEmail(): boolean;
 }
 
 export type TStudentModel = Model<Student, {}, TStudendMethods>;
