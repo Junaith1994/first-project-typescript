@@ -41,8 +41,14 @@ export type Student = {
   isDeleted: boolean;
 };
 
-export interface TStudendMethods {
-  validateEmail(): boolean;
+// Instance method
+// export interface TStudendMethods {
+//   validateEmail(): boolean;
+// }
+
+// Static methods
+export interface StaticMethods {
+  getMaleStudents(): Promise<Student[] | null>;
 }
 
-export type TStudentModel = Model<Student, {}, TStudendMethods>;
+export type TStudentModel = Model<Student, {}> & StaticMethods; // Provide TStudentMethods type in parameter

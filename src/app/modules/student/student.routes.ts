@@ -7,6 +7,8 @@ router.post("/create-student", studentController.createStudent);
 
 router.get("/", studentController.getStudents);
 
-router.get("/:studentId", studentController.getSingleStudent);
+router.post("/:studentId", studentController.getSingleStudent);
+
+router.get("/male-students", studentController.getMaleStudents);
 
 export const StudentRoutes = router;

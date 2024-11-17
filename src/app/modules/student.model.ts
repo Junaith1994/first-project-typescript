@@ -2,8 +2,8 @@ import { Schema, model } from "mongoose";
 import {
   GuardianInfoTypes,
   LocalGuardian,
+  StaticMethods,
   Student,
-  TStudendMethods,
   TStudentModel,
   UserName,
 } from "./student/student.interface";
@@ -39,7 +39,7 @@ const LocalGuardianSchema = new Schema<LocalGuardian>(
   { _id: false }
 );
 
-const studentSchema = new Schema<Student, TStudentModel, TStudendMethods>({
+const studentSchema = new Schema<Student, TStudentModel>({
   id: { type: String },
   password: { type: String, required: true },
   name: UserNameSchema,
@@ -69,14 +69,24 @@ const studentSchema = new Schema<Student, TStudentModel, TStudendMethods>({
 });
 
 // Instance method
-studentSchema.methods.validateEmail = function () {
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  if (!this.email) {
-    return false;
-  } else {
-    return emailRegex.test(this.email);
-  }
+// studentSchema.methods.validateEmail = function () {
+//   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+//   if (!this.email) {
+//     return false;
+//   } else {
+//     return emailRegex.test(this.email);
+//   }
+// };
+
+// Static methods
+studentSchema.statics.getMaleStudents = async function () {
+  return this.find({ gender: "Male" });
 };
+
+// Middlewares
+// studentSchema.pre('find', async function(next) {
+//   return
+// })
 
 // Student model
 export const StudentModel = model<Student, TStudentModel>(

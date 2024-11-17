@@ -42,6 +42,22 @@ const getSingleStudent = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
+    return res.status(404).send({
+      success: false,
+      message: error instanceof Error && error.message,
+    });
+  }
+};
+
+const getMaleStudents = async (req: Request, res: Response) => {
+  try {
+    const result = await studentServices.getMaleStudentsFromDB();
+    return res.status(200).send({
+      success: true,
+      message: "Male students retrieved Successfully",
+      data: result,
+    });
+  } catch (error) {
     console.log(error);
   }
 };
@@ -50,4 +66,5 @@ export const studentController = {
   createStudent,
   getStudents,
   getSingleStudent,
+  getMaleStudents,
 };
