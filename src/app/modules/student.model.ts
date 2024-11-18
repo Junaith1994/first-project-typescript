@@ -83,10 +83,11 @@ studentSchema.statics.getMaleStudents = async function () {
   return this.find({ gender: "Male" });
 };
 
-// Middlewares
-// studentSchema.pre('find', async function(next) {
-//   return
-// })
+// Middleware for hiding deleted docs
+studentSchema.pre("find", async function (next) {
+  this.where({ isDeleted: { $ne: true } });
+  next();
+});
 
 // Student model
 export const StudentModel = model<Student, TStudentModel>(

@@ -25,6 +25,7 @@ const getStudents = async (req: Request, res: Response) => {
     return res.status(200).send({
       success: true,
       messsage: "Students retrieved successfully",
+      documentCount: result.length,
       data: result,
     });
   } catch (error) {
