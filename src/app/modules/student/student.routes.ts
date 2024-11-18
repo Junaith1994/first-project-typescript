@@ -11,4 +11,6 @@ router.post("/:studentId", studentController.getSingleStudent);
 
 router.get("/male-students", studentController.getMaleStudents);
 
+router.delete("/:studentId", studentController.deleteStudent);
+
 export const StudentRoutes = router;

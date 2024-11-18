@@ -62,9 +62,30 @@ const getMaleStudents = async (req: Request, res: Response) => {
   }
 };
 
+const deleteStudent = async (req: Request, res: Response) => {
+  try {
+    const { studentId } = req.params;
+    const result = await studentServices.deletStudentFromDB(studentId);
+    return res.status(200).send({
+      success: true,
+      message:
+        result.modifiedCount == 0
+          ? "Student deleted successfully"
+          : `No student found with the id: ${studentId}`,
+      data: result,
+    });
+  } catch (error) {
+    return res.status(500).send({
+      success: false,
+      message: error instanceof Error && error.message,
+    });
+  }
+};
+
 export const studentController = {
   createStudent,
   getStudents,
   getSingleStudent,
   getMaleStudents,
+  deleteStudent,
 };

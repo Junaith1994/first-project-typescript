@@ -27,9 +27,19 @@ const getSingleStudentFromDB = async (studentId: string) => {
   //   : "Email is invalid !! Please update your info with a valid email address";
 };
 
+// Delete a document
+const deletStudentFromDB = async (studentId: string) => {
+  const result = await StudentModel.updateOne(
+    { id: studentId },
+    { isDeleted: true }
+  );
+  return result;
+};
+
 export const studentServices = {
   createStudentIntoDB,
   getStudentsFromDB,
   getSingleStudentFromDB,
   getMaleStudentsFromDB,
+  deletStudentFromDB,
 };
