@@ -114,9 +114,9 @@ studentSchema.pre("save", async function (next) {
 });
 
 // Middleware for hidding student's hashed password
-studentSchema.post("save", function (doc, next) {
+studentSchema.pre("save", function (next) {
   try {
-    doc.password = "******";
+    this.password = "******";
     next();
   } catch (error) {
     error instanceof Error
