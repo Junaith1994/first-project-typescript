@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { CallbackWithoutResultAndOptionalError, Schema, model } from "mongoose";
 import {
   GuardianInfoTypes,
   LocalGuardian,
@@ -7,6 +7,8 @@ import {
   TStudentModel,
   UserName,
 } from "./student/student.interface";
+import bcrypt from "bcrypt";
+import config from "../../config";
 
 const UserNameSchema = new Schema<UserName>(
   {
@@ -87,6 +89,40 @@ studentSchema.statics.getMaleStudents = async function () {
 studentSchema.pre("find", async function (next) {
   this.where({ isDeleted: { $ne: true } });
   next();
+});
+
+// Middleware for password hashing
+studentSchema.pre("save", async function (next) {
+  try {
+    if (!this.isModified("password")) {
+      return next();
+    }
+
+    const saltRounds = config.bcrypt_SaltRound;
+    if (isNaN(saltRounds) || saltRounds <= 0) {
+      throw new Error("Invalid saltrounds value in configuration !");
+    }
+
+    const hashedPassword = await bcrypt.hash(this.password, saltRounds);
+    this.password = hashedPassword;
+    next();
+  } catch (error) {
+    error instanceof Error
+      ? next(new Error("Password hashing failed " + error.message))
+      : next(new Error("Password hashing failed: An unknown error occured"));
+  }
+});
+
+// Middleware for hidding student's hashed password
+studentSchema.post("save", function (doc, next) {
+  try {
+    doc.password = "******";
+    next();
+  } catch (error) {
+    error instanceof Error
+      ? next(new Error("Hashed passsword hidding " + error.message))
+      : next(new Error("An unknown error occured"));
+  }
 });
 
 // Student model
