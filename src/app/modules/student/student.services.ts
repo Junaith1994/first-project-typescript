@@ -27,6 +27,16 @@ const getSingleStudentFromDB = async (studentId: string) => {
   //   : "Email is invalid !! Please update your info with a valid email address";
 };
 
+// Updating multipple students docs
+const getUpdatedStudentFromDB = async () => {
+  const query = { gender: "Male" };
+  const updateDoc = { $set: { modifiedOn: new Date() } };
+  const result = await StudentModel.updateMany(query, updateDoc, {
+    upsert: true,
+  });
+  return result;
+};
+
 // Delete a document
 const deletStudentFromDB = async (studentId: string) => {
   const result = await StudentModel.updateOne(
@@ -42,4 +52,5 @@ export const studentServices = {
   getSingleStudentFromDB,
   getMaleStudentsFromDB,
   deletStudentFromDB,
+  getUpdatedStudentFromDB,
 };

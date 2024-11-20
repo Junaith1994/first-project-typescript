@@ -41,34 +41,41 @@ const LocalGuardianSchema = new Schema<LocalGuardian>(
   { _id: false }
 );
 
-const studentSchema = new Schema<Student, TStudentModel>({
-  id: { type: String },
-  password: { type: String, required: true },
-  name: UserNameSchema,
-  gender: {
-    type: String,
-    enum: ["Male", "Female"],
-    required: true,
+const studentSchema = new Schema<Student, TStudentModel>(
+  {
+    id: { type: String },
+    password: { type: String, required: true },
+    name: UserNameSchema,
+    gender: {
+      type: String,
+      enum: ["Male", "Female"],
+      required: true,
+    },
+    dateOfBirth: { type: String },
+    email: { type: String, required: true },
+    contactNo: { type: String, required: true },
+    emergencyContactNo: { type: String, required: true },
+    bloodGroup: {
+      type: String,
+      enum: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
+    },
+    presentAddress: { type: String },
+    permanentAddress: { type: String },
+    guardian: GuardianSchema,
+    localGuardian: LocalGuardianSchema,
+    profileImg: { type: String },
+    isActive: {
+      type: String,
+      enum: ["active", "blocked"],
+    },
+    isDeleted: Boolean,
   },
-  dateOfBirth: { type: String },
-  email: { type: String, required: true },
-  contactNo: { type: String, required: true },
-  emergencyContactNo: { type: String, required: true },
-  bloodGroup: {
-    type: String,
-    enum: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
-  },
-  presentAddress: { type: String },
-  permanentAddress: { type: String },
-  guardian: GuardianSchema,
-  localGuardian: LocalGuardianSchema,
-  profileImg: { type: String },
-  isActive: {
-    type: String,
-    enum: ["active", "blocked"],
-  },
-  isDeleted: Boolean,
-});
+  {
+    toJSON: {
+      virtuals: true,
+    },
+  }
+);
 
 // Instance method
 // studentSchema.methods.validateEmail = function () {
@@ -123,6 +130,11 @@ studentSchema.pre("save", function (next) {
       ? next(new Error("Hashed passsword hidding " + error.message))
       : next(new Error("An unknown error occured"));
   }
+});
+
+// Mongoose Virtuals for getting full name
+studentSchema.virtual("Fullname").get(function () {
+  return `${this.name.firstName} ${this.name?.middleName} ${this.name.lastName}`;
 });
 
 // Student model
