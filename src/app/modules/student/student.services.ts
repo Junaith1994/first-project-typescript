@@ -30,7 +30,7 @@ const getSingleStudentFromDB = async (studentId: string) => {
 // Updating multipple students docs
 const getUpdatedStudentFromDB = async () => {
   const query = { gender: "Male" };
-  const updateDoc = { $set: { modifiedOn: new Date() } };
+  const updateDoc = { $set: { isActive: "inactive" } };
   const result = await StudentModel.updateMany(query, updateDoc, {
     upsert: true,
   });

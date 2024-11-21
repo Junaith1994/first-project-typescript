@@ -13,6 +13,6 @@ router.get("/male-students", studentController.getMaleStudents);
 
 router.delete("/:studentId", studentController.deleteStudent);
 
-// router.put("/update-student", studentController.updateStudents);
+router.put("/update-student", studentController.updateStudents);
 
 export const StudentRoutes = router;

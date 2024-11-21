@@ -63,21 +63,23 @@ const getMaleStudents = async (req: Request, res: Response) => {
   }
 };
 
-// const updateStudents = async (req: Request, res: Response) => {
-//   try {
-//     const result = await studentServices.getUpdatedStudentFromDB();
-//   return res.status(200).send({
-//     success: true,
-//     message: result,
-//   })
-// };
-//   } catch (error) {
-//     return res.status(404).send({
-//       success: false,
-//       message: error instanceof Error && error.message,
-//     });
-//   }
-
+const updateStudents = async (req: Request, res: Response) => {
+  try {
+    const result = await studentServices.getUpdatedStudentFromDB();
+    return res.status(200).send({
+      success: true,
+      message: result,
+    });
+  } catch (error) {
+    return res.status(500).send({
+      success: false,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Something went wrong in updating student",
+    });
+  }
+};
 const deleteStudent = async (req: Request, res: Response) => {
   try {
     const { studentId } = req.params;
@@ -104,5 +106,5 @@ export const studentController = {
   getSingleStudent,
   getMaleStudents,
   deleteStudent,
-  // updateStudents,
+  updateStudents,
 };
